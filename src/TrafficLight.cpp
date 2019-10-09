@@ -83,8 +83,7 @@ void TrafficLight::cycleThroughPhases()
       int cycleDuration = uniDistr(rd);
       std::this_thread::sleep_for(std::chrono::seconds(cycleDuration));
       (_currentPhase == TrafficLightPhase::red) ? _currentPhase = TrafficLightPhase::green : _currentPhase = TrafficLightPhase::red;
-      auto is_sent = std::async(std::launch::async, &MessageQueue<TrafficLightPhase>::send, _messagequeue, std::move(_currentPhase));
-      is_sent.wait();
+      std::async(std::launch::async, &MessageQueue<TrafficLightPhase>::send, _messagequeue, std::move(_currentPhase));
     }
 }
 
